@@ -6,7 +6,7 @@
 
 mesh:
   format: Adcirc
-  file_name: /Users/kazbek/Desktop/UT-CHG/R4.x265.000.0020-files/ADCIRC+HWind/rectangular_mesh.14
+  file_name: /Users/kazbek/Desktop/UT-CHG/dgswemv2/build/mesh_generators/rectangular_mesh.14
 
 timestepping:
   dt: 1                           
@@ -22,19 +22,22 @@ problem:
   h_o: 0.01
   spherical_projection:
     type: Enable
-    polar_o: 0.0
-    azimuthal_o: 0.0
-    R: 10000000.0
+    longitude_o: 0.0
+    latitude_o: 10.0
+    R: 6372800.0
   initial_conditions:
-    type: Function
+    type: Constant
+    initial_surface_height: 0.0
+    initial_momentum_x: 0.0
+    initial_momentum_y: 0.0
   function_source:
-    type: Enable  
+    type: None  
   bottom_friction:
     type: None
   meteo_forcing:
     type: HWIND
-    raw_input_file: /Users/kazbek/Desktop/UT-CHG/R4.x265.000.0020-files/ADCIRC+HWind/160411-HWind-Hurr2c/fort.22 
-    input_file: /Users/kazbek/Desktop/UT-CHG/meteo_files/meteo_data
+    raw_input_file: /Users/kazbek/Desktop/UT-CHG/meteor/testing_files/R4.x265.000.0020-files/ADCIRC+HWind/160411-HWind-Hurr2c/fort.22 
+    input_file: /Users/kazbek/Desktop/UT-CHG/meteor/testing_files/R4.x265.000.0020-files/ADCIRC+HWind/160411-HWind-Hurr2c/processed/meteo_data
     frequency: 1800
   tidal_potential:
     type: None

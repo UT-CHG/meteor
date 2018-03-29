@@ -1,8 +1,8 @@
-x1: -64
-x2: -49
+x1: -64.0
+x2: -49.0
 
-y1: 10
-y2: 21
+y1: 10.0
+y2: 21.0
 
 num_x_subdivisions: 300
 num_y_subdivisions: 220
