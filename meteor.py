@@ -50,7 +50,8 @@ for meteo_file_id in range(0, number_meteo_files):
 
     #Output file
     current_step = math.ceil(current_time / input.dt)
-    output_file = open(input.meteo_input_file + '_' + str(current_step), "w")
+    output_file_name = input.meteo_input_file[:-6] + '_' + str(current_step) + ".meteo"
+    output_file = open(output_file_name, "w")
 
     for node_id in range(0, mesh.num_nodes):
         output_file.write(str(node_id) + ' ')
