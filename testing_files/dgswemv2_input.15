@@ -36,8 +36,8 @@ problem:
     type: None
   meteo_forcing:
     type: HWIND
-    raw_input_file: /Users/kazbek/Desktop/UT-CHG/meteor/testing_files/R4.x265.000.0020-files/ADCIRC+HWind/160411-HWind-Hurr2c/fort.22 
-    input_file: /Users/kazbek/Desktop/UT-CHG/meteor/testing_files/R4.x265.000.0020-files/ADCIRC+HWind/160411-HWind-Hurr2c/processed/meteo_data
+    raw_input_file: /Users/kazbek/Desktop/UT-CHG/meteor/testing_files/raw_meteo_files/fort.22 
+    input_file: /Users/kazbek/Desktop/UT-CHG/meteor/testing_files/meteo_files/meteo_data
     frequency: 1800
   tidal_potential:
     type: None
