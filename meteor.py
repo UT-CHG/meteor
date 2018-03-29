@@ -49,7 +49,8 @@ for meteo_file_id in range(0, number_meteo_files):
     wind_stress_y = 0.001293 * np.multiply(C_d, np.multiply(wind_speed, wind_data[:, 1]))
 
     #Output file
-    output_file = open(input.meteo_input_file + '_' + str(int(current_time)), "w")
+    current_step = math.ceil(current_time / input.dt)
+    output_file = open(input.meteo_input_file + '_' + str(current_step), "w")
 
     for node_id in range(0, mesh.num_nodes):
         output_file.write(str(node_id) + ' ')
