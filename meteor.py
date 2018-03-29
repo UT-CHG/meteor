@@ -28,7 +28,7 @@ elif input.mesh_type == MeshType.Meta:
 if input.meteo_data_type == MeteoDataType.HWIND:
     meteo_data = HwindData(input.raw_meteo_input_file)
 
-number_meteo_files = math.ceil(input.end_time / input.meteo_input_frequency) + 1
+number_meteo_files = int(math.ceil(input.end_time / input.meteo_input_frequency)) + 1
 
 #Construct grid data from mesh in spherical coordinates
 #Here I assume that I read in mesh in lon/lat coordinates
@@ -51,7 +51,7 @@ for meteo_file_id in range(0, number_meteo_files):
     wind_stress_y = 0.001293 * np.multiply(C_d, np.multiply(wind_speed, wind_data[:, 1]))
 
     #Output file
-    current_step = math.ceil(current_time / input.dt)
+    current_step = int(math.ceil(current_time / input.dt))
     output_file_name = input.meteo_input_file[:-6] + '_' + str(current_step) + ".meteo"
     output_file = open(output_file_name, "w")
 
