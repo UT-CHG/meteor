@@ -6,7 +6,7 @@
 
 mesh:
   format: Adcirc
-  file_name: /Users/kazbek/Desktop/UT-CHG/dgswemv2/build/mesh_generators/rectangular_mesh.14
+  file_name: ../dgswemv2/build/mesh_generators/rectangular_mesh.14
 
 timestepping:
   dt: 1                           
@@ -36,8 +36,8 @@ problem:
     type: None
   meteo_forcing:
     type: HWIND
-    raw_input_file: /Users/kazbek/Desktop/UT-CHG/meteor/testing_files/raw_meteo_files/fort.22 
-    input_file: /Users/kazbek/Desktop/UT-CHG/meteor/testing_files/meteo_files/meteo_data.meteo
+    raw_input_file: ../meteor/testing_files/raw_meteo_files/fort.22 
+    input_file: ../meteor/testing_files/meteo_files/meteo_data.meteo
     frequency: 1800
   tidal_potential:
     type: None

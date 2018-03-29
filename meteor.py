@@ -3,6 +3,8 @@ import math
 import numpy as np
 import matplotlib.pyplot as plt
 
+sys.path.append('$WORK/meteor')
+
 from input_file import InputFile
 from input_file import MeshType
 from input_file import MeteoDataType
