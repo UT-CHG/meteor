@@ -1,0 +1,12 @@
+x1: -64
+x2: -49
+
+y1: 10
+y2: 21
+
+num_x_subdivisions: 300
+num_y_subdivisions: 220
+
+pattern: 0
+
+boundary_type: [0, 0, 0, 0]

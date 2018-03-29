@@ -1,0 +1,47 @@
+###############################################################################
+#
+#  DGSWEMv2 input file
+#
+###############################################################################
+
+mesh:
+  format: Adcirc
+  file_name: /Users/kazbek/Desktop/UT-CHG/R4.x265.000.0020-files/ADCIRC+HWind/rectangular_mesh.14
+
+timestepping:
+  dt: 1                           
+  end_time: 48600                
+  order: 2
+  nstages: 2
+
+polynomial_order: 1
+
+problem:
+  name: swe
+  gravity: 9.81
+  h_o: 0.01
+  spherical_projection:
+    type: Enable
+    polar_o: 0.0
+    azimuthal_o: 0.0
+    R: 10000000.0
+  initial_conditions:
+    type: Function
+  function_source:
+    type: Enable  
+  bottom_friction:
+    type: None
+  meteo_forcing:
+    type: HWIND
+    raw_input_file: /Users/kazbek/Desktop/UT-CHG/R4.x265.000.0020-files/ADCIRC+HWind/160411-HWind-Hurr2c/fort.22 
+    input_file: /Users/kazbek/Desktop/UT-CHG/meteo_files/meteo_data
+    frequency: 1800
+  tidal_potential:
+    type: None
+  coriolis:
+    type: None
+
+output:
+  path: output/
+  vtk:
+    frequency: 360
