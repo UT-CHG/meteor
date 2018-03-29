@@ -19,7 +19,7 @@ class HwindData:
     def __init__(self, meteo_file_path):
         with open(meteo_file_path) as meteo_input_file:
             #Skip first line
-            next(meteo_input_file)
+            meteo_input_file.readline()
 
             self.hwind_multiplier = float(meteo_input_file.readline())
 

@@ -14,7 +14,7 @@ class HwindFile:
     def parse_data(self):
         with open(self.file_path) as hwind_file:
             #Skip first line
-            next(hwind_file)
+            hwind_file.readline()
 
             #DX=DY= 6.02280 KILOMETERS.
             dx_dy_sting = hwind_file.readline().split()
@@ -26,7 +26,7 @@ class HwindFile:
             self.storm_center_lat = float(storm_center_sting[8])
 
             #Skip next line
-            next(hwind_file)
+            hwind_file.readline()
 
             #Read in grid x_coordinates
             n_x_coordinates = int(hwind_file.readline())
@@ -43,7 +43,7 @@ class HwindFile:
                 parsed_coordinates += len(x_coord_string)
 
             #Skip next line
-            next(hwind_file)
+            hwind_file.readline()
 
             #Read in grid y_coordinates
             n_y_coordinates = int(hwind_file.readline())
@@ -60,7 +60,7 @@ class HwindFile:
                 parsed_coordinates += len(y_coord_string)
 
             #Skip next line
-            next(hwind_file)
+            hwind_file.readline()
 
             #Read in grid lon_coordinates
             n_lon_coordinates = int(hwind_file.readline())
@@ -77,7 +77,7 @@ class HwindFile:
                 parsed_coordinates += len(lon_coord_string)
 
             #Skip next line
-            next(hwind_file)
+            hwind_file.readline()
 
             #Read in grid lat_coordinates
             n_lat_coordinates = int(hwind_file.readline())
@@ -107,7 +107,7 @@ class HwindFile:
             self.spherical_grid_point_coordinates = np.column_stack((lon_grid.flatten(), lat_grid.flatten()))
 
             #Skip next line
-            next(hwind_file)
+            hwind_file.readline()
 
             #Read in grid velocity data
             n_grid_string = hwind_file.readline().split()
