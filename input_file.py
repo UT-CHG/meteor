@@ -21,9 +21,9 @@ class InputFile:
         self.dt = float(input["timestepping"]["dt"])
         self.end_time = float(input["timestepping"]["end_time"])
 
-        self.g = float(input["gravity"])
-        self.rho_air = float(input["density_air"])
-        self.rho_water = float(input["density_water"])
+        self.g = float(input["problem"]["gravity"])
+        self.rho_air = float(input["problem"]["density_air"])
+        self.rho_water = float(input["problem"]["density_water"])
 
         if input["mesh"]["format"] == "Adcirc":
             self.mesh_type = MeshType.ADCIRC
