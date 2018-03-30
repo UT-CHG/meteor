@@ -47,8 +47,8 @@ for meteo_file_id in range(0, number_meteo_files):
     wind_speed = np.hypot(wind_data[:, 0], wind_data[:, 1])
     C_d = 0.001 * (0.75 + 0.067 * wind_speed)
 
-    wind_stress_x = 0.001293 * np.multiply(C_d, np.multiply(wind_speed, wind_data[:, 0]))
-    wind_stress_y = 0.001293 * np.multiply(C_d, np.multiply(wind_speed, wind_data[:, 1]))
+    wind_stress_x = input.rho_air * np.multiply(C_d, np.multiply(wind_speed, wind_data[:, 0]))
+    wind_stress_y = input.rho_air * np.multiply(C_d, np.multiply(wind_speed, wind_data[:, 1]))
 
     #Output file
     current_step = int(math.ceil(current_time / input.dt))

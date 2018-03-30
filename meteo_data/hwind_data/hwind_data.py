@@ -182,7 +182,7 @@ class HwindData:
             p_central = 1010.0 - (vmax / 2.3)**(1.0 / 0.76)
 
         #use central pressure and max wind speed to estimate the Holland B value
-        rho_air = 1.15  #kg/m^3
+        rho_air = 1.225  #kg/m^3
 
         B = vmax**2 * rho_air * math.e / ((1013.0 - p_central) * 100.0)  #with conversion from milibars to Pa
         B = max(min(B, 2.5), 1.0)  # limit B to range [1.0,2.5]
