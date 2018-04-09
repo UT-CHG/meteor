@@ -41,7 +41,7 @@ for node in range(0, mesh.num_nodes):
 
 current_time = 0.0
 for meteo_file_id in range(0, number_meteo_files):
-    wind_data = meteo_data.get_wind_data(current_time, grid_coord_spherical)
+    wind_data = meteo_data.get_wind_data(input, current_time, grid_coord_spherical)
 
     #Garratt's formula is used to compute wind stress from the wind velocity.
     wind_speed = np.hypot(wind_data[:, 0], wind_data[:, 1])
