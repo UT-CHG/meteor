@@ -2,4 +2,8 @@
 */__pycache__
 */*/__pycache__
 
+*.pyc
+*/*.pyc
+*/*/*.pyc
+
 testing_files/meteo_files/*
