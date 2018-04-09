@@ -63,7 +63,7 @@ class HwindData:
             #for hwind_file in self.hwind_files:
             #    hwind_file.plot_data()
 
-    def get_wind_data(self, time, grid_coord_spherical):
+    def get_wind_data(self, input, time, grid_coord_spherical):
         interpolate = False
 
         #check if there is hwind file with same timestamp
@@ -181,7 +181,7 @@ class HwindData:
         elif self.pressure_wind_relationship == PWRelationship.Knaffzehr:
             p_central = 1010.0 - (vmax / 2.3)**(1.0 / 0.76)
 
-        #use central pressure and max wind speed to estimate the Holland B value
+        #Use central pressure and max wind speed to estimate the Holland B value
         rho_air = 1.225  #kg/m^3
 
         B = vmax**2 * rho_air * math.e / ((1013.0 - p_central) * 100.0)  #with conversion from milibars to Pa
@@ -199,6 +199,9 @@ class HwindData:
 
             p.append(pressure)
 
-        p = np.asarray(p) * 100.0  #convert from milibars to Pa
-        #need to ramp the pressure!
+        #Ramping pressure
+        p = 1013.0 - (1013.0 - np.asarray(p)) * curr_ramp
+
+        p = p * 100.0  #convert from milibars to Pa
+
         return np.column_stack((vx_interp, vy_interp, p))

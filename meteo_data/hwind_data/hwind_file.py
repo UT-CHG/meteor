@@ -18,12 +18,12 @@ class HwindFile:
             hwind_file.readline()
 
             #DX=DY= 6.02280 KILOMETERS.
-            dx_dy = re.search('DX=DY=(?P<dx_dy>[\s0-9.Ee]+)', hwind_file.readline())
+            dx_dy = re.search(r'DX=DY=(?P<dx_dy>[\s0-9.Ee]+)', hwind_file.readline())
             self.dx_dy = float(dx_dy.group('dx_dy'))
 
             #STORM CENTER LOCALE IS(LON) EAST LONGITUDE and (LAT) NORTH LATITUDE ... STORM CENTER IS AT (X,Y)=(0,0)
             storm_center = re.search(
-                'STORM CENTER LOCALE IS (?P<lon>[\s\-0-9.Ee]+) EAST LONGITUDE and\s+(?P<lat>[\s\-0-9.Ee]+) NORTH LATITUDE',
+                r'STORM CENTER LOCALE IS (?P<lon>[\s\-0-9.Ee]+) EAST LONGITUDE and\s+(?P<lat>[\s\-0-9.Ee]+) NORTH LATITUDE',
                 hwind_file.readline())
             self.storm_center_lon = float(storm_center.group('lon'))
             self.storm_center_lat = float(storm_center.group('lat'))
@@ -127,13 +127,13 @@ class HwindFile:
 
                 parsed_velocities = 0
                 while parsed_velocities < nx_grid:
-                    velocities = re.finditer('\((?P<u>[\s\-0-9.Ee]+),(?P<v>[\s\-0-9.Ee]+)\)', hwind_file.readline())
+                    velocities = re.finditer(r'\((?P<u>[\s\-0-9.Ee]+),(?P<v>[\s\-0-9.Ee]+)\)', hwind_file.readline())
 
                     for velocity in velocities:
                         temp_vx.append(float(velocity.group('u')))
                         temp_vy.append(float(velocity.group('v')))
                         parsed_velocities += 1
-                
+
                 vx.append(temp_vx)
                 vy.append(temp_vy)
 
