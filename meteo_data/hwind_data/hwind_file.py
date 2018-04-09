@@ -23,7 +23,7 @@ class HwindFile:
 
             #STORM CENTER LOCALE IS(LON) EAST LONGITUDE and (LAT) NORTH LATITUDE ... STORM CENTER IS AT (X,Y)=(0,0)
             storm_center = re.search(
-                r'STORM CENTER LOCALE IS (?P<lon>[\s\-0-9.Ee]+) EAST LONGITUDE and\s+(?P<lat>[\s\-0-9.Ee]+) NORTH LATITUDE',
+                r'STORM CENTER LOCALE IS (?P<lon>[\s\-0-9.Ee]+) EAST LONGITUDE and (?P<lat>[\s\-0-9.Ee]+) NORTH LATITUDE',
                 hwind_file.readline())
             self.storm_center_lon = float(storm_center.group('lon'))
             self.storm_center_lat = float(storm_center.group('lat'))
@@ -169,5 +169,6 @@ class HwindFile:
         y_max = max(self.cartesian_coordinates[:, 1])
 
         plt.axis([x_min, x_max, y_min, y_max])
+        plt.axes().set_aspect('equal')
         plt.grid()
         plt.show()

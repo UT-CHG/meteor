@@ -11,6 +11,7 @@ class MeshType(Enum):
 class MeteoDataType(Enum):
     NONE = 0
     HWIND = 1
+    OWIWIND = 2
 
 
 class InputFile:
@@ -40,6 +41,8 @@ class InputFile:
             sys.exit()
         elif input["problem"]["meteo_forcing"]["type"] == "HWIND":
             self.meteo_data_type = MeteoDataType.HWIND
+        elif input["problem"]["meteo_forcing"]["type"] == "OWIWIND":
+            self.meteo_data_type = MeteoDataType.OWIWIND
         else:
             print("Undefined meteo forcing type: {}. Exiting!".format(input["problem"]["meteo_forcing"]["type"]))
             sys.exit()

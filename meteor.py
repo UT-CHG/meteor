@@ -3,8 +3,6 @@ import math
 import numpy as np
 import matplotlib.pyplot as plt
 
-sys.path.append('$WORK/meteor')
-
 from input_file import InputFile
 from input_file import MeshType
 from input_file import MeteoDataType
@@ -13,6 +11,7 @@ from mesh.ADCIRC_mesh.adcirc_mesh import AdcirMesh
 from mesh.Meta_mesh.meta_mesh import MetaMesh
 
 from meteo_data.hwind_data.hwind_data import HwindData
+from meteo_data.owiwind_data.owiwind_data import OWIwindData
 
 if len(sys.argv) < 2:
     print("Not enough input variables. Please provide fort.15 file path! Exiting!")
@@ -27,6 +26,8 @@ elif input.mesh_type == MeshType.Meta:
 
 if input.meteo_data_type == MeteoDataType.HWIND:
     meteo_data = HwindData(input.raw_meteo_input_file)
+elif input.meteo_data_type == MeteoDataType.OWIWIND:
+    meteo_data = OWIwindData(input.raw_meteo_input_file)
 
 number_meteo_files = int(math.ceil(input.end_time / input.meteo_input_frequency)) + 1
 

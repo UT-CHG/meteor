@@ -1,11 +1,11 @@
 x1: 0
-x2: 1643048.46755
+x2: 1904085.68195
 
-y1: 1112263.42571
-y2: 2335753.19399
+y1: 2002074.16628
+y2: 3448016.61970
 
-num_x_subdivisions: 300
-num_y_subdivisions: 220
+num_x_subdivisions: 360
+num_y_subdivisions: 260
 
 pattern: 0
 

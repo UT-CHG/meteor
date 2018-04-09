@@ -37,10 +37,10 @@ problem:
   bottom_friction:
     type: None
   meteo_forcing:
-    type: HWIND
-    raw_input_file: /work/04430/kazbek/stampede2/meteor/testing_files/raw_meteo_files/fort.22 
+    type: OWIWIND
+    raw_input_file: /work/04430/kazbek/stampede2/meteor/testing_files/Storm36.input/fort.22 
     input_file: /work/04430/kazbek/stampede2/meteor/testing_files/meteo_files/meteo_data.meteo
-    frequency: 1800
+    frequency: 900.0
   tidal_potential:
     type: None
   coriolis:

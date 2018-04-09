@@ -1,11 +1,11 @@
-x1: -64.0
-x2: -49.0
+x1: -98.0
+x2: -80.0
 
-y1: 10.0
-y2: 21.0
+y1: 18.0
+y2: 31.0
 
-num_x_subdivisions: 300
-num_y_subdivisions: 220
+num_x_subdivisions: 360
+num_y_subdivisions: 260
 
 pattern: 0
 
