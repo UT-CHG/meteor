@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import re
 
 from utilities.utilities import haversine
 
@@ -17,13 +18,15 @@ class HwindFile:
             hwind_file.readline()
 
             #DX=DY= 6.02280 KILOMETERS.
-            dx_dy_sting = hwind_file.readline().split()
-            self.dx_dy = float(dx_dy_sting[1])
+            dx_dy = re.search('DX=DY=(?P<dx_dy>[\s0-9.Ee]+)', hwind_file.readline())
+            self.dx_dy = float(dx_dy.group('dx_dy'))
 
-            #STORM CENTER LOCALE IS (LON) EAST LONGITUDE and (LAT) NORTH LATITUDE ... STORM CENTER IS AT (X,Y)=(0,0)
-            storm_center_sting = hwind_file.readline().split()
-            self.storm_center_lon = float(storm_center_sting[4])
-            self.storm_center_lat = float(storm_center_sting[8])
+            #STORM CENTER LOCALE IS(LON) EAST LONGITUDE and (LAT) NORTH LATITUDE ... STORM CENTER IS AT (X,Y)=(0,0)
+            storm_center = re.search(
+                'STORM CENTER LOCALE IS (?P<lon>[\s\-0-9.Ee]+) EAST LONGITUDE and\s+(?P<lat>[\s\-0-9.Ee]+) NORTH LATITUDE',
+                hwind_file.readline())
+            self.storm_center_lon = float(storm_center.group('lon'))
+            self.storm_center_lat = float(storm_center.group('lat'))
 
             #Skip next line
             hwind_file.readline()
@@ -124,16 +127,13 @@ class HwindFile:
 
                 parsed_velocities = 0
                 while parsed_velocities < nx_grid:
-                    velocities_string = hwind_file.readline().replace('(', '').replace(')', '').replace(',', '').split()
+                    velocities = re.finditer('\((?P<u>[\s\-0-9.Ee]+),(?P<v>[\s\-0-9.Ee]+)\)', hwind_file.readline())
 
-                    num_vel_data = int(len(velocities_string) / 2)
-
-                    for j in range(0, num_vel_data):
-                        temp_vx.append(float(velocities_string[2 * j]))
-                        temp_vy.append(float(velocities_string[2 * j + 1]))
-
-                    parsed_velocities += num_vel_data
-
+                    for velocity in velocities:
+                        temp_vx.append(float(velocity.group('u')))
+                        temp_vy.append(float(velocity.group('v')))
+                        parsed_velocities += 1
+                
                 vx.append(temp_vx)
                 vy.append(temp_vy)
 

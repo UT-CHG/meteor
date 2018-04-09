@@ -200,5 +200,5 @@ class HwindData:
             p.append(pressure)
 
         p = np.asarray(p) * 100.0  #convert from milibars to Pa
-
+        #need to ramp the pressure!
         return np.column_stack((vx_interp, vy_interp, p))
