@@ -1,16 +1,25 @@
+import sys
 import numpy as np
 import matplotlib.pyplot as plt
 import re
+import datetime as dt
 
 from utilities.utilities import haversine
 
 
 class HwindFile:
-    def __init__(self, time, pressure_central, ramp, file_path):
-        self.time = time * 3600.0  #convert hours to seconds
+    def __init__(self, pressure_central, ramp, file_path):
         self.pressure_central = pressure_central
         self.ramp = ramp
         self.file_path = file_path
+
+        time_data = re.search(r'(?P<time>[0-9]{4}_[0-9]{4}_[0-9]{4})', self.file_path)
+
+        if (time_data == None):
+            print("Unable to extract time data for hwind file: {}. Exiting!".format(self.file_path))
+            sys.exit()
+
+        self.time = dt.datetime.strptime(time_data.group('time'), '%Y_%m%d_%H%M')
 
     def parse_data(self):
         with open(self.file_path) as hwind_file:

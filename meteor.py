@@ -2,6 +2,7 @@ import sys
 import math
 import numpy as np
 import matplotlib.pyplot as plt
+import datetime as dt
 
 from input_file import InputFile
 from input_file import MeshType
@@ -29,8 +30,6 @@ if input.meteo_data_type == MeteoDataType.HWIND:
 elif input.meteo_data_type == MeteoDataType.OWIWIND:
     meteo_data = OWIwindData(input.raw_meteo_input_file)
 
-number_meteo_files = int(math.ceil(input.end_time / input.meteo_input_frequency)) + 1
-
 #Construct grid data from mesh in spherical coordinates
 #Here I assume that I read in mesh in lon/lat coordinates
 #That is either true or projected cartesian x/y coordinates need to be projected back to lon/lat
@@ -40,8 +39,8 @@ for node in range(0, mesh.num_nodes):
     grid_coord_spherical[node][0] = mesh.nodes[node].c1
     grid_coord_spherical[node][1] = mesh.nodes[node].c2
 
-current_time = 0.0
-for meteo_file_id in range(0, number_meteo_files):
+current_time = input.start_time
+while current_time <= input.end_time:
     wind_data = meteo_data.get_wind_data(input, current_time, grid_coord_spherical)
 
     #Garratt's formula is used to compute wind stress from the wind velocity.
@@ -52,7 +51,7 @@ for meteo_file_id in range(0, number_meteo_files):
     wind_stress_y = input.rho_air * np.multiply(C_d, np.multiply(wind_speed, wind_data[:, 1]))
 
     #Output file
-    current_step = int(math.ceil(current_time / input.dt))
+    current_step = int(math.ceil((current_time - input.start_time).total_seconds() / input.dt))
     output_file_name = input.meteo_input_file[:-6] + '_' + str(current_step) + ".meteo"
     output_file = open(output_file_name, "w")
 
@@ -64,4 +63,4 @@ for meteo_file_id in range(0, number_meteo_files):
 
     output_file.close()
 
-    current_time += input.meteo_input_frequency
+    current_time += dt.timedelta(seconds=input.meteo_input_frequency)

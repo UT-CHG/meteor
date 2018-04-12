@@ -45,9 +45,7 @@ class HwindData:
                 hwind_string = line.split()
 
                 self.hwind_files.append(
-                    HwindFile(
-                        float(hwind_string[0]), float(hwind_string[1]), float(hwind_string[2]),
-                        meteo_input_root + hwind_string[3]))
+                    HwindFile(float(hwind_string[1]), float(hwind_string[2]), meteo_input_root + hwind_string[3]))
 
             if len(self.hwind_files) < 2:
                 print("Insufficient number of files for temporal interpolation. Exiting!")

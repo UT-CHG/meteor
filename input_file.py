@@ -1,6 +1,7 @@
 from enum import Enum
 import yaml
 import sys
+import datetime as dt
 
 
 class MeshType(Enum):
@@ -19,8 +20,10 @@ class InputFile:
         with open(input_file_path) as input_file:
             input = yaml.load(input_file)
 
+        self.start_time = dt.datetime.strptime(input["timestepping"]["start_time"], '%d-%m-%Y %H:%M')
+        self.end_time = dt.datetime.strptime(input["timestepping"]["end_time"], '%d-%m-%Y %H:%M')
         self.dt = float(input["timestepping"]["dt"])
-        self.end_time = float(input["timestepping"]["end_time"])
+        self.run_time = (self.end_time - self.start_time).total_seconds()
 
         self.g = float(input["problem"]["gravity"])
         self.rho_air = float(input["problem"]["density_air"])

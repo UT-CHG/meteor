@@ -23,44 +23,24 @@ class OWIwindData:
         with open(meteo_file_path + '1') as pressure_field_data:
             time_data = re.search(r'.+(?P<start>[0-9]{10})\s+(?P<end>[0-9]{10})', pressure_field_data.readline())
 
-            start_year = int(time_data.group('start')[0:4])
-            start_month = int(time_data.group('start')[4:6])
-            start_day = int(time_data.group('start')[6:8])
-            start_hour = int(time_data.group('start')[8:10])
-
-            self.start_time = dt.datetime(start_year, start_month, start_day, start_hour)
-
-            end_year = int(time_data.group('end')[0:4])
-            end_month = int(time_data.group('end')[4:6])
-            end_day = int(time_data.group('end')[6:8])
-            end_hour = int(time_data.group('end')[8:10])
-
-            self.end_time = dt.datetime(end_year, end_month, end_day, end_hour)
+            self.start_time = dt.datetime.strptime(time_data.group('start'), '%Y%m%d%H')
+            self.end_time = dt.datetime.strptime(time_data.group('end'), '%Y%m%d%H')
 
             self.owiwind_snapshots = []
 
             while True:
                 snap_data = re.search(
-                    r'iLat=(?P<n_lat>[\s0-9]+)iLong=(?P<n_lon>[\s0-9]+)DX=(?P<d_lon>[\s0-9.Ee]+)DY=(?P<d_lat>[\s0-9.Ee]+)SWLat=(?P<o_lat>[\s\-0-9.Ee]+)SWLon=(?P<o_lon>[\s\-0-9.Ee]+)DT=(?P<time>[\s0-9]+)',
+                    r'iLat=(?P<n_lat>[\s0-9]+)iLong=(?P<n_lon>[\s0-9]+)DX=(?P<d_lon>[\s0-9.Ee]+)DY=(?P<d_lat>[\s0-9.Ee]+)SWLat=(?P<o_lat>[\s\-0-9.Ee]+)SWLon=(?P<o_lon>[\s\-0-9.Ee]+)DT=(?P<time>[\s0-9]+)\n',
                     pressure_field_data.readline())
 
                 if snap_data == None:
                     break
 
-                curr_year = int(snap_data.group('time')[0:4])
-                curr_month = int(snap_data.group('time')[4:6])
-                curr_day = int(snap_data.group('time')[6:8])
-                curr_hour = int(snap_data.group('time')[8:10])
-                curr_minute = int(snap_data.group('time')[10:12])
+                curr_time = dt.datetime.strptime(snap_data.group('time'), '%Y%m%d%H%M')
 
-                curr_time = dt.datetime(curr_year, curr_month, curr_day, curr_hour, curr_minute)
-
-                seconds_since_start = (curr_time - self.start_time).total_seconds()
-
-                snapshot = OWIwindSnapshot(seconds_since_start, float(snap_data.group('o_lon')),
-                                           float(snap_data.group('o_lat')), float(snap_data.group('d_lon')),
-                                           float(snap_data.group('d_lat')), int(snap_data.group('n_lon')),
-                                           int(snap_data.group('n_lat')))
+                snapshot = OWIwindSnapshot(curr_time, float(snap_data.group('o_lon')), float(snap_data.group('o_lat')),
+                                           float(snap_data.group('d_lon')), float(snap_data.group('d_lat')),
+                                           int(snap_data.group('n_lon')), int(snap_data.group('n_lat')))
 
                 parsed_data_points = []
 
@@ -76,19 +56,8 @@ class OWIwindData:
         with open(meteo_file_path + '2') as velocity_field_data:
             time_data = re.search(r'.+(?P<start>[0-9]{10})\s+(?P<end>[0-9]{10})', velocity_field_data.readline())
 
-            start_year = int(time_data.group('start')[0:4])
-            start_month = int(time_data.group('start')[4:6])
-            start_day = int(time_data.group('start')[6:8])
-            start_hour = int(time_data.group('start')[8:10])
-
-            start_time = dt.datetime(start_year, start_month, start_day, start_hour)
-
-            end_year = int(time_data.group('end')[0:4])
-            end_month = int(time_data.group('end')[4:6])
-            end_day = int(time_data.group('end')[6:8])
-            end_hour = int(time_data.group('end')[8:10])
-
-            end_time = dt.datetime(end_year, end_month, end_day, end_hour)
+            start_time = dt.datetime.strptime(time_data.group('start'), '%Y%m%d%H')
+            end_time = dt.datetime.strptime(time_data.group('end'), '%Y%m%d%H')
 
             if self.start_time != start_time or self.end_time != end_time:
                 print("Velocity and pressure files have inconsistent start/end times. Exiting!")
@@ -96,7 +65,7 @@ class OWIwindData:
 
             for owiwind_snapshot in self.owiwind_snapshots:
                 snap_data = re.search(
-                    r'iLat=(?P<n_lat>[\s0-9]+)iLong=(?P<n_lon>[\s0-9]+)DX=(?P<d_lon>[\s0-9.Ee]+)DY=(?P<d_lat>[\s0-9.Ee]+)SWLat=(?P<o_lat>[\s\-0-9.Ee]+)SWLon=(?P<o_lon>[\s\-0-9.Ee]+)DT=(?P<time>[\s0-9]+)',
+                    r'iLat=(?P<n_lat>[\s0-9]+)iLong=(?P<n_lon>[\s0-9]+)DX=(?P<d_lon>[\s0-9.Ee]+)DY=(?P<d_lat>[\s0-9.Ee]+)SWLat=(?P<o_lat>[\s\-0-9.Ee]+)SWLon=(?P<o_lon>[\s\-0-9.Ee]+)DT=(?P<time>[\s0-9]+)\n',
                     velocity_field_data.readline())
 
                 #each existing pressure data set has to have a corresponding velocity data set
@@ -104,18 +73,10 @@ class OWIwindData:
                     print("Velocity data was not found for time: {}. Exiting!".format(owiwind_snapshot.time))
                     sys.exit()
 
-                curr_year = int(snap_data.group('time')[0:4])
-                curr_month = int(snap_data.group('time')[4:6])
-                curr_day = int(snap_data.group('time')[6:8])
-                curr_hour = int(snap_data.group('time')[8:10])
-                curr_minute = int(snap_data.group('time')[10:12])
-
-                curr_time = dt.datetime(curr_year, curr_month, curr_day, curr_hour, curr_minute)
-
-                seconds_since_start = (curr_time - self.start_time).total_seconds()
+                curr_time = dt.datetime.strptime(snap_data.group('time'), '%Y%m%d%H%M')
 
                 #check if pressure and velocity snapshots are consistent
-                if owiwind_snapshot.time != seconds_since_start or \
+                if owiwind_snapshot.time != curr_time or \
                    owiwind_snapshot.o_lon != float(snap_data.group('o_lon')) or \
                    owiwind_snapshot.o_lat != float(snap_data.group('o_lat')) or \
                    owiwind_snapshot.d_lon != float(snap_data.group('d_lon')) or \
